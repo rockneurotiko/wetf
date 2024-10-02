@@ -287,6 +287,19 @@ class Unpacker {
 				}
 				return obj;
 			}
+                        case 113: { // EXPORT_EXT (MFA)
+                          const module = this._loop();
+                          const f = this._loop();
+                          const arity = this._loop();
+                          return {
+                            __struct__: "Elixir.MFA",
+                            mfa: {
+                              module: module,
+                              function: f,
+                              arity: arity
+                            }
+                          };
+                        }
 		}
 		console.log(this._d.slice(this._i - 20, this._i + 20));
 		throw new Error(`Unexpected byte: ${type}`);
