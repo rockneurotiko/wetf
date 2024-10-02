@@ -1,6 +1,6 @@
 class Unpacker {
 	/**
-	 * 
+	 *
 	 * @param {{
 	 * 		decompression?: "zlib" | "decompressionstream" | ((data: Uint8Array | Buffer) => Uint8Array | Buffer | Promise<Uint8Array> | Promise<Buffer>);
 	 * 		decoding?: {
@@ -13,7 +13,7 @@ class Unpacker {
 	 * 		};
 	 * 		atomTable?: Record<string, any>;
 	 * 		atomRegistration?: boolean
-	 * }} options 
+	 * }} options
 	 */
 	constructor(options = {}) {
 		/** @private */ this._decompressor = options.decompression;
@@ -86,8 +86,8 @@ class Unpacker {
 	}
 
 	/**
-	 * 
-	 * @param {Buffer | Uint8Array} data 
+	 *
+	 * @param {Buffer | Uint8Array} data
 	 * @return {any}
 	 */
 	unpack(data) {
@@ -127,7 +127,7 @@ class Unpacker {
 	}
 
 	/**
-	 * @private 
+	 * @private
 	 */
 	_loop() {
 		const type = this._d[this._i++];
@@ -294,9 +294,9 @@ class Unpacker {
 
 	/**
 	 * @private
-	 * @param {number} length 
-	 * @param {boolean} utf 
-	 * @returns 
+	 * @param {number} length
+	 * @param {boolean} utf
+	 * @returns
 	 */
 	_resolveAtom(length, utf) {
 		const r = utf ? this._atomTableUtf : this._atomTableLatin;
@@ -324,8 +324,8 @@ class Unpacker {
 
 	/**
 	 * @private
-	 * @param {number} length 
-	 * @param {boolean} utf 
+	 * @param {number} length
+	 * @param {boolean} utf
 	 * @returns {string}
 	 */
 	_registerAtom(length, utf) {
@@ -351,7 +351,7 @@ class Unpacker {
 
 	/**
 	 * @private
-	 * @param {number} length 
+	 * @param {number} length
 	 */
 	_utf(length) {
 		let str = "";
@@ -380,7 +380,7 @@ class Unpacker {
 
 	/**
 	 * @private
-	 * @param {number} length 
+	 * @param {number} length
 	 */
 	_latin(length) {
 		let str = "";
@@ -399,8 +399,8 @@ class Unpacker {
 
 	/**
 	 * @private
-	 * @param {ReadableStreamDefaultReader} reader 
-	 * @returns 
+	 * @param {ReadableStreamDefaultReader} reader
+	 * @returns
 	 */
 	async _decompressorStreamOut(reader) {
 		const chunks = [];
