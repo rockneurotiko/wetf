@@ -300,7 +300,76 @@ class Unpacker {
                             }
                           };
                         }
-		}
+
+                        case 103: {     // PID_EXT
+                          const node = this._loop();
+                          const id = this._v.getUint32(this._i);
+                          const serial = this._v.getUint32(this._i + 4);
+                          const creation = this._d[this._i + 8];
+                          this._i += 9;
+                          return {
+                            __struct__: "Elixir.PID",
+                            node: node,
+                            id: id,
+                            serial: serial,
+                            creation: creation
+                          };
+                        }
+
+                        case 88: {     // NEW_PID_EXT
+                          const node = this._loop();
+                          const id = this._v.getUint32(this._i);
+                          const serial = this._v.getUint32(this._i + 4);
+                          const creation = (this._d[this._i + 8] << 24) +
+                                    (this._d[this._i + 9] << 16) +
+                                    (this._d[this._i + 10] << 8) +
+                                    this._d[this._i + 11];
+                          this._i += 12;
+                          return {
+                            __struct__: "Elixir.PID",
+                            node: node,
+                            id: id,
+                            serial: serial,
+                            creation: creation
+                          };
+                        }
+
+                        case 112: { // NEW_FUN_EXT
+                          const size = (this._d[this._i + 1] << 24) +
+                                (this._d[this._i + 2] << 16) +
+                                (this._d[this._i + 3] << 8) +
+                                this._d[this._i + 4];
+
+                          // const raw = this._d.subarray(this._i + 5, this._i + 5 + size);
+                          const final_i = this._i + size;
+
+                          this._i += 4; // Skip size
+
+                          const arity = this._d[this._i];
+                          console.log("Arity: ", arity);
+                          this._i += 1; // Skip arity
+                          this._i += 16; // Skip MD5 checksum
+                          this._i += 4; // Skip Index
+                          this._i += 4; // Skip NumFree
+
+                          const module = this._loop();
+                          const old_index = this._loop();
+                          const old_uniq = this._loop();
+                          const pid = this._loop();
+
+                          // Skip
+                          this._i = final_i;
+                          return {
+                            __struct__: "Elixir.NewFunExt",
+                            arity: arity,
+                            module: module,
+                            old_index: old_index,
+                            old_uniq: old_uniq,
+                            pid: pid,
+                            size: size
+                          };
+                        }
+    		    }
 		console.log(this._d.slice(this._i - 20, this._i + 20));
 		throw new Error(`Unexpected byte: ${type}`);
 	}
