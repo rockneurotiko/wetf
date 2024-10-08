@@ -335,10 +335,10 @@ class Unpacker {
                         }
 
                         case 112: { // NEW_FUN_EXT
-                          const size = (this._d[this._i + 1] << 24) +
-                                (this._d[this._i + 2] << 16) +
-                                (this._d[this._i + 3] << 8) +
-                                this._d[this._i + 4];
+                          const size = (this._d[this._i ] << 24) +
+                                (this._d[this._i + 1] << 16) +
+                                (this._d[this._i + 2] << 8) +
+                                this._d[this._i + 3];
 
                           // const raw = this._d.subarray(this._i + 5, this._i + 5 + size);
                           const final_i = this._i + size;
@@ -346,7 +346,6 @@ class Unpacker {
                           this._i += 4; // Skip size
 
                           const arity = this._d[this._i];
-                          console.log("Arity: ", arity);
                           this._i += 1; // Skip arity
                           this._i += 16; // Skip MD5 checksum
                           this._i += 4; // Skip Index
